@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Balanced binary search treeBinary search tree supports Search(x, A), Insert(x, A) and Delete(x, A). The time complexity of these operations can not be done in time better than O(logn). Sometimes after">
+<meta property="og:type" content="website">
+<meta property="og:title" content="2-3 tree">
+<meta property="og:url" content="http://yoursite.com/2-3-tree.html">
+<meta property="og:site_name" content="Tony&#39;s Blog">
+<meta property="og:description" content="Balanced binary search treeBinary search tree supports Search(x, A), Insert(x, A) and Delete(x, A). The time complexity of these operations can not be done in time better than O(logn). Sometimes after">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2017-10-20T03:13:12.348Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2-3 tree">
+<meta name="twitter:description" content="Balanced binary search treeBinary search tree supports Search(x, A), Insert(x, A) and Delete(x, A). The time complexity of these operations can not be done in time better than O(logn). Sometimes after">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2-3-tree.html"/>
+
+
+
+
+
+  <title>2-3 tree | Tony's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tony's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">2-3 tree</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <h2 id="Balanced-binary-search-tree"><a href="#Balanced-binary-search-tree" class="headerlink" title="Balanced binary search tree"></a>Balanced binary search tree</h2><p>Binary search tree supports Search(x, A), Insert(x, A) and Delete(x, A). The time complexity of these operations can not be done in time better than O(logn). Sometimes after certain operations, the tree might get very unbalanced and its time complexity will increase.<br>To keep the tree in a relatively balanced shape, <a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank" rel="external">AVL-Tree</a> is made. It gives the left and right heights to the nodes. Besides that we have <a href="https://en.wikipedia.org/wiki/Red%E2%80%93black_tree" target="_blank" rel="external">Red-Black Tree</a> which color every node either black or red.</p>
+<h2 id="2-3-Tree"><a href="#2-3-Tree" class="headerlink" title="2-3 Tree"></a>2-3 Tree</h2><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>a tree is a 2-3 tree if:<br>(1) Each non-leaf has either 2 or 3 children.<br>(2) All leaves are on the same level.</p>
+<h3 id="Theory"><a href="#Theory" class="headerlink" title="Theory"></a>Theory</h3><p>A 2-3 tree with n leaves has a height ≤ $log_2n$. See homework 1.</p>
+<h3 id="Use-2-3-tree-for-storing-data"><a href="#Use-2-3-tree-for-storing-data" class="headerlink" title="Use 2-3 tree for storing data"></a>Use 2-3 tree for storing data</h3><p>(1) Data are stored in leaves, sorted in increasing order.<br>(2) In each non-leaf, a node contains 3 key values: $k_1$, $k_2$, $k_3$ and 3 pointers of 2-3 tree: $p_1$, $p_2$, $p_3$. If $k_1$ is a number and $p_1$ is null, then $k_1$ is a leaf.</p>
+<p>Search(y, A)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Search(y, A)</div><div class="line">    <span class="keyword">if</span> A is a leaf</div><div class="line">    <span class="keyword">then</span> <span class="built_in">return</span> (y==A.k1)  //<span class="built_in">return</span> <span class="literal">true</span> <span class="keyword">if</span> found</div><div class="line">    <span class="keyword">case</span> </div><div class="line">        y ≤ A.k1 <span class="built_in">return</span> Search(y, A.p1)</div><div class="line">        A.k1 &lt; y ≤ A.k2 <span class="built_in">return</span> Search(y, A.p2)</div><div class="line">        A.k2 &lt; y ≤ k3 &amp;&amp; p3≠nullptr <span class="built_in">return</span> Search(y, A.p3)</div></pre></td></tr></table></figure></p>
+<p>The time complexity is $O(log_n)$</p>
+<p>Insert(x, T)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Add(x, T, newb)</div><div class="line">    <span class="keyword">if</span> T is the father of leaves</div><div class="line">    <span class="keyword">then</span> <span class="keyword">if</span> T is a 2-child node</div><div class="line">        <span class="keyword">then</span> insert x as a third child of T</div><div class="line">        <span class="keyword">else</span> partition x and the 3 children of T into groups &#123;y1, y2&#125;, &#123;y3, y4&#125;</div><div class="line">             make y1 y2 children of T and y3 y4 children of a new node T<span class="string">'</span></div><div class="line"><span class="string">    newb = T'</span>; <span class="built_in">return</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> T is ≥ 2 levels above leaves</div><div class="line">        <span class="keyword">if</span> x ≤ T.k1 <span class="keyword">then</span> Add(x, T.p1, newb<span class="string">')'</span></div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> x ≤ T.k2 <span class="keyword">then</span> Add(x, T.p2, newb<span class="string">')'</span></div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> T.p3≠ Nil <span class="keyword">then</span> Add(x, T.p3, newb<span class="string">')'</span></div><div class="line">    <span class="keyword">if</span> newb ≠ Nil</div><div class="line">    <span class="keyword">then</span> <span class="keyword">if</span> T has 2 children, add newb as the 3rd</div><div class="line">         <span class="keyword">else</span> group the 3 children of T and newb into &#123;g1, g2&#125;, &#123;g3, g4&#125;</div><div class="line">              <span class="built_in">let</span> g1 g2 be children of T and g3 g4 be children of a new T<span class="string">''</span>,</div><div class="line">              newb=T<span class="string">''</span>; <span class="built_in">return</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Insert(x, T)</div><div class="line">    <span class="keyword">if</span> T is a leaf </div><div class="line">    <span class="keyword">then</span> make a 2-3 tree of children</div><div class="line">    </div><div class="line">    call Add(x, T, newb)</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> newb ≠ nil</div><div class="line">    <span class="keyword">then</span> creat a new root with children T with newb</div></pre></td></tr></table></figure>
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Tony Gong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Balanced-binary-search-tree"><span class="nav-number">1.</span> <span class="nav-text">Balanced binary search tree</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-Tree"><span class="nav-number">2.</span> <span class="nav-text">2-3 Tree</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Definition"><span class="nav-number">2.1.</span> <span class="nav-text">Definition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Theory"><span class="nav-number">2.2.</span> <span class="nav-text">Theory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-2-3-tree-for-storing-data"><span class="nav-number">2.3.</span> <span class="nav-text">Use 2-3 tree for storing data</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tony Gong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
